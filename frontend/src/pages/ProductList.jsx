@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import fetchProductList from "../api/fetchProductList";
+import ProductCard from "../components/ProductCard";
 
 function ProductList() {
-
-    const BASE_URL = import.meta.env.VITE_BASE_URL
 
     const { data: products, isLoading, isError, error } = useQuery({
         queryKey: ['products'],
@@ -24,11 +23,7 @@ function ProductList() {
             <div>This is the product list page</div>
             <div>
                 {products && products.map(product => (
-                    <div key={product.id}>
-                        <img className="h-20 w-20" src={`${BASE_URL}${product.image}`} alt={product.name} />
-                        <p>{product.name}</p>
-                        <p>{product.price}</p>
-                    </div>
+                    <ProductCard key={product.id} product={product}/>
                 ))}
             </div>
         </>
