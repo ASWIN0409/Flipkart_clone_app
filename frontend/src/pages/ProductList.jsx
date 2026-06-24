@@ -21,7 +21,6 @@ function ProductList() {
 
     return (
         <>
-            <div>This is the product list page</div>
             <div className="m-8 grid grid-cols-1 w-[90%] mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {products && products.map(product => (
                     <ProductCard onClickHandler={() => navigate(`/product/details/${product.id}`)} key={product.id} product={product}/>
