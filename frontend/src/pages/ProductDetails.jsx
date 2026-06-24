@@ -42,7 +42,7 @@ function ProductDetails() {
                 {/* Thumbnail */}
                 <div className="hover:border hover:shadow-2xl transition-all duration-300 hover:translate-y-2 w-20 sm:w-24 p-2 rounded-xl mb-4">
                     <img
-                        src={`${BASE_URL}${product.image}`}
+                        src={`${BASE_URL}${product?.image}`}
                         alt={product.name}
                         className="h-16 w-16 sm:h-20 sm:w-20 rounded-lg object-cover"
                     />
