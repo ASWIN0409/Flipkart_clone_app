@@ -1,8 +1,12 @@
 import { useNavigate, Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 function Navbar() {
 
     const navigate = useNavigate();
+    const { cartItems } = useCart();
+
+    const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
     return (
         <header className="bg-white shadow-md sticky top-0 z-50">
@@ -44,11 +48,14 @@ function Navbar() {
                 {/* Right Side */}
                 <div className="flex items-center gap-4">
 
-                    <button className="relative bg-gray-100 p-2 rounded-lg hover:bg-gray-200 transition">
+                    <button onClick={() => navigate('/cart')} className="relative bg-gray-100 p-2 rounded-lg hover:bg-gray-200 transition">
                         🛒
-                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">
-                            3
+                        {cartCount > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">
+                            {cartCount}
                         </span>
+                        )}
+                        
                     </button>
 
                     <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">

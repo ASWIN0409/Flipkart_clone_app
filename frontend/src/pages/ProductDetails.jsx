@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import fetchProductDetails from "../api/fetchProductDetails";
+import { useCart } from "../context/CartContext";
 
 function ProductDetails() {
 
     const { id } = useParams();
+    const {addToCart} = useCart();
     const BASE_URL = import.meta.env.VITE_BASE_URL;
 
     const { data: product, isLoading, isError, error } = useQuery({
@@ -84,7 +86,7 @@ function ProductDetails() {
 
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-center mt-4 gap-3">
-                    <button className="bg-gray-200 text-black w-full px-4 py-3 rounded-lg hover:bg-gray-300">
+                    <button onClick={() => addToCart(product)} className="bg-gray-200 text-black w-full px-4 py-3 rounded-lg hover:bg-gray-300">
                         Add to Cart
                     </button>
 

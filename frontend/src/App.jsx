@@ -1,16 +1,13 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
-import Routing from './pages/Routing'
+import CartProvider from "./context/CartContext"
+import Routing from "./pages/Routing"
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <Routing />
+      <CartProvider>
+        <Routing />
+      </CartProvider>
     </>
   )
 }
