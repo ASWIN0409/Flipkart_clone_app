@@ -3,7 +3,7 @@ function ProductCard({ product, onClickHandler }) {
     const BASE_URL = import.meta.env.VITE_BASE_URL
 
     return (
-        <div onClick={onClickHandler} className=" bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+        <div onClick={onClickHandler} className="flex flex-col justify-between bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
 
             <div className="relative overflow-hidden">
                 <img
