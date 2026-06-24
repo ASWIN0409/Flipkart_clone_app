@@ -1,13 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import fetchProductDetails from "../api/fetchProductDetails";
 import { useCart } from "../context/CartContext";
 
 function ProductDetails() {
 
     const { id } = useParams();
+    const navigate = useNavigate();
     const {addToCart} = useCart();
     const BASE_URL = import.meta.env.VITE_BASE_URL;
+    
+    const handleAddToCart = (product) => {
+        addToCart(product);
+        navigate('/cart');
+    }
 
     const { data: product, isLoading, isError, error } = useQuery({
         queryKey: ['product', id],
@@ -90,7 +96,7 @@ function ProductDetails() {
                         Add to Cart
                     </button>
 
-                    <button className="bg-orange-400 text-white w-full px-4 py-3 rounded-lg hover:bg-orange-600">
+                    <button onClick={() => handleAddToCart(product)} className="bg-orange-400 text-white w-full px-4 py-3 rounded-lg hover:bg-orange-600">
                         Buy at ₹{product.price}
                     </button>
                 </div>
