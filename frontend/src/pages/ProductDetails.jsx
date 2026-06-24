@@ -20,36 +20,80 @@ function ProductDetails() {
     if (isError) return <h1>Error: {error.message}</h1>
 
     return (
-        <>
-            <div>This is the product detail page {id}</div>
-            <div className=" w-80 h-full mx-auto bg-white rounded-3xl overflow-hidden shadow-md">
+        <div className="w-[95%] lg:w-[85%] mx-auto bg-white overflow-hidden flex flex-col lg:flex-row">
 
-                <div className="relative overflow-hidden">
+            {/* Product Image Section */}
+            <div className="w-full lg:basis-[50%] relative overflow-hidden">
+                <img
+                    src={`${BASE_URL}${product.image}`}
+                    alt={product.name}
+                    className="w-full h-[350px] sm:h-[450px] lg:h-screen object-cover"
+                />
+            </div>
+
+            {/* Product Details Section */}
+            <div className="w-full lg:basis-[50%] p-4 sm:p-6">
+                <h2 className="text-gray-800 text-sm sm:text-base lg:text-lg">
+                    {product?.category?.name} / {product?.subcategory?.name}
+                </h2>
+
+                <hr className="my-3" />
+
+                {/* Thumbnail */}
+                <div className="hover:border hover:shadow-2xl transition-all duration-300 hover:translate-y-2 w-20 sm:w-24 p-2 rounded-xl mb-4">
                     <img
                         src={`${BASE_URL}${product.image}`}
                         alt={product.name}
-                        className="h-56 w-full"
+                        className="h-16 w-16 sm:h-20 sm:w-20 rounded-lg object-cover"
                     />
                 </div>
 
-                <div className="p-5">
-                    <h2 className="font-semibold text-gray-800 text-lg">
+                <p className="font-extrabold mb-4 text-gray-800 text-base sm:text-lg">
+                    {product?.brand?.name}
+                </p>
+
+                <hr className="my-3" />
+
+                <div className="flex flex-col gap-4 my-4">
+
+                    <p className="text-gray-800 text-lg sm:text-xl font-semibold">
                         {product.name}
-                    </h2>
+                    </p>
 
-                    <div className="flex items-center justify-between mt-3">
-                        <span className="text-2xl font-bold text-green-600">
-                            ₹{product.price}
-                        </span>
+                    {/* Tabs */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div className="border text-center bg-black text-white font-bold hover:bg-gray-800 p-2 rounded-lg cursor-pointer">
+                            Description
+                        </div>
 
-                        <button className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800">
-                            Add to Cart
-                        </button>
+                        <div className="border text-center bg-black text-white font-bold hover:bg-gray-800 p-2 rounded-lg cursor-pointer">
+                            Specification
+                        </div>
+
+                        <div className="border text-center bg-black text-white font-bold hover:bg-gray-800 p-2 rounded-lg cursor-pointer">
+                            Manufacturer Info
+                        </div>
                     </div>
+
+                    <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
+                        {product.description}
+                    </p>
+                </div>
+
+                <hr className="my-3" />
+
+                {/* Buttons */}
+                <div className="flex flex-col sm:flex-row items-center justify-center mt-4 gap-3">
+                    <button className="bg-gray-200 text-black w-full px-4 py-3 rounded-lg hover:bg-gray-300">
+                        Add to Cart
+                    </button>
+
+                    <button className="bg-orange-400 text-white w-full px-4 py-3 rounded-lg hover:bg-orange-600">
+                        Buy at ₹{product.price}
+                    </button>
                 </div>
             </div>
-
-        </>
+        </div>
     );
 }
 
