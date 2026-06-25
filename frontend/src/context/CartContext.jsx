@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { axiosInstance } from "../helpers/axiosInstance";
 
 const CartContext = createContext();
 
@@ -8,31 +9,27 @@ export default function CartProvider({ children }) {
 
     // Add Product to cart
     const addToCart = (product) => {
-        const existing = cartItems.find((item) => item.id === product.id)
-        if (existing) {
-            setCartItems(
-                cartItems.map((item) => (
-                    item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-                ))
-            );
-        } else {
-            setCartItems([...cartItems, { ...product, quantity: 1 }]);
-        }
+        const response = axiosInstance.post('api/cart/add/', {
+            product_id: product.id
+        });
+        setCartItems(response.data.cart.items);
     }
 
     // Remove product from cart
     const removeFromCart = (id) => {
-        setCartItems(cartItems.filter(item => item.id !== id));
+        const response = axiosInstance.post('api/cart/remove/', {
+            item_id: id
+        });
+        setCartItems(response.data.cart.items);
     }
 
     // Update quantity
     const updateQuantity = (id, quantity) => {
-        if (quantity < 1) return;
-        setCartItems(
-            cartItems.map((item) => (
-                item.id === id ? { ...item, quantity } : item
-            ))
-        );
+        const response = axiosInstance.post('api/cart/edit/', {
+            item_id: id,
+            quantity: quantity,
+        });
+        setCartItems(response.data.cart.items);
     }
 
     return (

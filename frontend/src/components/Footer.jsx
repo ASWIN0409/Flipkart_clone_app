@@ -10,7 +10,7 @@ function Footer() {
                     {/* Brand */}
                     <div>
                         <h2 className="text-2xl font-bold text-white mb-3">
-                            ShopHub
+                            Flipkart Clone
                         </h2>
                         <p className="text-sm">
                             Your one-stop destination for quality products at the best prices.
