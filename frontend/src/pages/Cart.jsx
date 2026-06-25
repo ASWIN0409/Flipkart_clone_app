@@ -3,7 +3,7 @@ import { useCart } from "../context/CartContext";
 function Cart() {
 
     const { cartItems, removeFromCart, updateQuantity } = useCart();
-    const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const total = cartItems.reduce((acc, item) => acc + item.product_price * item.quantity, 0);
 
     const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -39,8 +39,8 @@ function Cart() {
                             {/* Image */}
                             <div className="sm:w-40">
                                 <img
-                                    src={`${BASE_URL}${item.image}`}
-                                    alt={item.name}
+                                    src={`${BASE_URL}${item.product_image}`}
+                                    alt={item.product_name}
                                     className="w-full h-40 object-cover rounded-lg"
                                 />
                             </div>
@@ -49,15 +49,15 @@ function Cart() {
                             <div className="flex-1 flex flex-col justify-between">
                                 <div>
                                     <h2 className="text-lg font-semibold">
-                                        {item.name}
+                                        {item.product_name}
                                     </h2>
 
                                     <p className="text-gray-500 text-sm mt-1">
-                                        {item?.brand?.name}
+                                        {item.product_brand}
                                     </p>
 
                                     <p className="text-orange-500 font-bold text-xl mt-2">
-                                        ₹{item.price}
+                                        ₹{item.product_price}
                                     </p>
                                 </div>
 
@@ -109,7 +109,7 @@ function Cart() {
                             {/* Subtotal */}
                             <div className="flex items-center justify-end">
                                 <p className="font-bold text-lg">
-                                    ₹{item.price * item.quantity}
+                                    ₹{item.product_price * item.quantity}
                                 </p>
                             </div>
                         </div>

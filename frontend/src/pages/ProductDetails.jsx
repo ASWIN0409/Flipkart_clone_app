@@ -10,8 +10,8 @@ function ProductDetails() {
     const {addToCart} = useCart();
     const BASE_URL = import.meta.env.VITE_BASE_URL;
     
-    const handleAddToCart = (product) => {
-        addToCart(product);
+    const handleAddToCart = async (product) => {
+        await addToCart(product);
         navigate('/cart');
     }
 
@@ -92,7 +92,7 @@ function ProductDetails() {
 
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-center mt-4 gap-3">
-                    <button onClick={() => addToCart(product)} className="bg-gray-200 text-black w-full px-4 py-3 rounded-lg hover:bg-gray-300">
+                    <button onClick={() => handleAddToCart(product)} className="bg-gray-200 text-black w-full px-4 py-3 rounded-lg hover:bg-gray-300">
                         Add to Cart
                     </button>
 

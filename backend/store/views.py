@@ -40,20 +40,27 @@ def add_to_cart(request):
 @api_view(['POST'])
 def remove_from_cart(request):
     item_id = request.data.get('item_id')
-    CartItem.objects.filter(id=item_id).delete()
-    return Response({'message': 'Item removed from cart'})
+
+    item = CartItem.objects.get(id=item_id)
+    cart = item.cart
+    item.delete()
+    return Response({'message': 'Item removed from cart','cart': CartSerializer(cart).data})
 
 
 @api_view(['POST'])
 def update_cart_item(request):
     item_id = request.data.get('item_id')
-    quantity = request.data.get('quantity')
+    quantity = int(request.data.get('quantity'))
 
     item = CartItem.objects.get(id=item_id)
-    item.quantity = quantity
-    item.save()
+    cart = item.cart
 
-    return Response({'message': 'Quantity Updated', 'cart': CartSerializer(item.cart).data})
+    if quantity <= 0:
+        item.delete()
+    else:
+        item.quantity = quantity
+        item.save()
+    return Response({"message": "Cart updated", "cart": CartSerializer(cart).data})
 
 
 

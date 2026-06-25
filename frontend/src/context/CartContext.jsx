@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { axiosInstance } from "../helpers/axiosInstance";
 
 const CartContext = createContext();
@@ -7,25 +7,35 @@ export default function CartProvider({ children }) {
 
     const [cartItems, setCartItems] = useState([]);
 
+    useEffect(() => {
+        const fetchCart = async () => {
+            const response = await axiosInstance.get("api/cart/");
+            setCartItems(response.data.items);
+        };
+        fetchCart();
+    }, []);
+
     // Add Product to cart
-    const addToCart = (product) => {
-        const response = axiosInstance.post('api/cart/add/', {
+    const addToCart = async (product) => {
+        const response = await axiosInstance.post('api/cart/add/', {
             product_id: product.id
         });
         setCartItems(response.data.cart.items);
     }
 
     // Remove product from cart
-    const removeFromCart = (id) => {
-        const response = axiosInstance.post('api/cart/remove/', {
+    const removeFromCart = async (id) => {
+        console.log('removing from cart');
+        const response = await axiosInstance.post('api/cart/remove/', {
             item_id: id
         });
+        console.log(response.data);
         setCartItems(response.data.cart.items);
     }
 
     // Update quantity
-    const updateQuantity = (id, quantity) => {
-        const response = axiosInstance.post('api/cart/edit/', {
+    const updateQuantity = async (id, quantity) => {
+        const response = await axiosInstance.post('api/cart/edit/', {
             item_id: id,
             quantity: quantity,
         });
