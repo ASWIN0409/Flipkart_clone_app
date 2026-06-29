@@ -4,7 +4,8 @@ import { axiosInstance } from "../helpers/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
 function Checkout() {
-    const { cartItems, emptyCart, message, setMessage } = useCart();
+    const { cartItems, emptyCart } = useCart();
+    const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
     const totalItems = cartItems.reduce(
@@ -43,16 +44,14 @@ function Checkout() {
         e.preventDefault();
         try {
             const response = await axiosInstance.post('api/orders/create/', formData);
-            emptyCart();
-            setMessage("Order Placed Successfully !")
+            setMessage("Order Placed Successfully !");
             setTimeout(() => {
+                emptyCart();
                 navigate('/')
             }, 3000);
-        } catch(error) {
-            console.log(error.message);
+        } catch (error) {
+            setMessage("Order Failed, Please Try again !");
         }
-
-
     };
 
     console.log(formData);

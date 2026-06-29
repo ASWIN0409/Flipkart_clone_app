@@ -6,7 +6,6 @@ const CartContext = createContext();
 export default function CartProvider({ children }) {
 
     const [cartItems, setCartItems] = useState([]);
-    const [message, setMessage] = useState('');
 
     useEffect(() => {
         const fetchCart = async () => {
@@ -43,11 +42,10 @@ export default function CartProvider({ children }) {
 
     const emptyCart = () => {
         setCartItems([]);
-        setMessage("");
     }
 
     return (
-        <CartContext.Provider value={{ cartItems, message, setMessage, addToCart, removeFromCart, updateQuantity, emptyCart }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, emptyCart }}>
             {children}
         </CartContext.Provider>
     );
