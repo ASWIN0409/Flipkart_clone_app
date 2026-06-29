@@ -3,6 +3,7 @@ import { useCart } from "../context/CartContext";
 function Cart() {
 
     const { cartItems, removeFromCart, updateQuantity } = useCart();
+    console.log(cartItems);
     const total = cartItems.reduce((acc, item) => acc + item.product_price * item.quantity, 0);
 
     const BASE_URL = import.meta.env.VITE_BASE_URL;

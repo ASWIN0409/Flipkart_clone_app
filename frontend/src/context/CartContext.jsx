@@ -25,11 +25,9 @@ export default function CartProvider({ children }) {
 
     // Remove product from cart
     const removeFromCart = async (id) => {
-        console.log('removing from cart');
         const response = await axiosInstance.post('api/cart/remove/', {
             item_id: id
         });
-        console.log(response.data);
         setCartItems(response.data.cart.items);
     }
 
