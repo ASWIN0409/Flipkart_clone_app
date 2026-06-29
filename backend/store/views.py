@@ -2,28 +2,32 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Product, Category, Cart, CartItem
+from .models import Product, Category, Cart, CartItem, Order, OrderItem
 from .serializers import ProductSerializer, CategorySerializer, SubCategorySerializer, BrandSerializer, CartItemSerializer, CartSerializer
 
 
+# get complete products data view
 @api_view(['GET'])
 def get_product_list(request):
     products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+# get product individual data view
 @api_view(['GET'])
 def get_product_details(request, pk):
     product = get_object_or_404(Product, pk=pk)
     serializer = ProductSerializer(product)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+# get cart items view
 @api_view(['GET'])
 def get_cart(request):
     cart, created = Cart.objects.get_or_create(user=None)
     serializer = CartSerializer(cart)
     return Response(serializer.data)
 
+# add items to cart view
 @api_view(['POST'])
 def add_to_cart(request):
     product_id = request.data.get('product_id')
@@ -36,6 +40,7 @@ def add_to_cart(request):
         item.save()
     return Response({'message': 'Product added to cart', 'cart': CartSerializer(cart).data})
 
+# remove items from cart view
 @api_view(['POST'])
 def remove_from_cart(request):
     item_id = request.data.get('item_id')
@@ -45,7 +50,7 @@ def remove_from_cart(request):
     item.delete()
     return Response({'message': 'Item removed from cart','cart': CartSerializer(cart).data})
 
-
+# Update quantity view
 @api_view(['POST'])
 def update_cart_item(request):
     item_id = request.data.get('item_id')
@@ -61,5 +66,37 @@ def update_cart_item(request):
         item.save()
     return Response({"message": "Cart updated", "cart": CartSerializer(cart).data})
 
+# Create Order view
+@api_view(['POST'])
+def create_order(request):
+    try:
+        name = request.data.get('name')
+        phone = request.data.get('phone')
+        address = request.data.get('address')
+        payment_method = request.data.get('payment_method', 'COD')
+
+        cart = Cart.objects.first()
+
+        if not cart or not cart.items.exists():
+            return Response({'error': 'Cart is empty'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        total = sum(float(item.product.price) * item.quantity for item in cart.items.all())
+
+        # Create order
+        order = Order.objects.create(user=None, total_amount=total)
+
+        # Create order items
+        for item in cart.items.all():
+            OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity, price=item.product.price)
+
+        # Clear Cart
+        cart.items.all().delete()
+
+        return Response({
+            'message': 'Order Placed Successfully !',
+            'order_id': order.id,
+        })
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 

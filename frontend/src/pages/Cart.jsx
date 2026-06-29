@@ -1,12 +1,12 @@
 import { useCart } from "../context/CartContext";
+import { useNavigate } from 'react-router-dom';
 
 function Cart() {
 
     const { cartItems, removeFromCart, updateQuantity } = useCart();
-    console.log(cartItems);
     const total = cartItems.reduce((acc, item) => acc + item.product_price * item.quantity, 0);
-
     const BASE_URL = import.meta.env.VITE_BASE_URL;
+    const navigate = useNavigate();
 
     if (cartItems.length === 0) {
         return (
@@ -149,7 +149,7 @@ function Cart() {
                             <span>₹{total}</span>
                         </div>
 
-                        <button className="w-full bg-orange-500 text-white py-3 rounded-lg mt-4 hover:bg-orange-600 transition">
+                        <button onClick={() => navigate('/checkout')} className="w-full bg-orange-500 text-white py-3 rounded-lg mt-4 hover:bg-orange-600 transition">
                             Proceed To Checkout
                         </button>
                     </div>
