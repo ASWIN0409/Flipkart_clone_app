@@ -89,7 +89,7 @@ def create_order(request):
         for item in cart.items.all():
             OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity, price=item.product.price)
 
-        # Clear Cart
+        # Clear cart
         cart.items.all().delete()
 
         return Response({

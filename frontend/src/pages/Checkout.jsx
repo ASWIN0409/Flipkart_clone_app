@@ -4,7 +4,8 @@ import { axiosInstance } from "../helpers/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
 function Checkout() {
-    const { cartItems, emptyCart, message, setMessage } = useCart();
+    const { cartItems, emptyCart } = useCart();
+    const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
     const totalItems = cartItems.reduce(
@@ -43,19 +44,15 @@ function Checkout() {
         e.preventDefault();
         try {
             const response = await axiosInstance.post('api/orders/create/', formData);
-            emptyCart();
-            setMessage("Order Placed Successfully !")
+            setMessage("Order Placed Successfully !");
             setTimeout(() => {
+                emptyCart();
                 navigate('/')
             }, 3000);
-        } catch(error) {
-            console.log(error.message);
+        } catch (error) {
+            setMessage("Order Failed, Please Try again !");
         }
-
-
     };
-
-    console.log(formData);
 
     if (message) return <h1 className="text-green-600 w-full font-extrabold text-5xl flex justify-center items-center h-screen">{message}</h1>
 
@@ -83,6 +80,7 @@ function Checkout() {
                                 value={formData.name}
                                 onChange={handleInputChange}
                                 className="border p-3 rounded-lg outline-none focus:border-blue-500"
+                                required
                             />
 
                             <input
@@ -92,6 +90,7 @@ function Checkout() {
                                 value={formData.phone}
                                 onChange={handleInputChange}
                                 className="border p-3 rounded-lg outline-none focus:border-blue-500"
+                                required
                             />
 
                             <textarea
@@ -101,6 +100,7 @@ function Checkout() {
                                 onChange={handleInputChange}
                                 rows="4"
                                 className="border p-3 rounded-lg md:col-span-2 outline-none focus:border-blue-500"
+                                required
                             />
 
                             {/* Payment Method */}
