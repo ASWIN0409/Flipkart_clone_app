@@ -18,8 +18,8 @@ function Checkout() {
         0
     );
 
-    const discount = 500;
-    const deliveryCharge = 0;
+    const discount = subtotal > 500 ? 200 : 0;
+    const deliveryCharge = subtotal < 500 ? 30 : 0;
 
     const finalAmount =
         subtotal - discount + deliveryCharge;
@@ -176,8 +176,16 @@ function Checkout() {
 
                                         <div className="flex justify-between">
                                             <span>Delivery Charges</span>
-                                            <span className="text-green-600">
-                                                FREE
+                                            <span
+                                                className={
+                                                    deliveryCharge === 0
+                                                        ? "text-green-600"
+                                                        : "text-red-500"
+                                                }
+                                            >
+                                                {deliveryCharge === 0
+                                                    ? "FREE"
+                                                    : `₹${deliveryCharge}`}
                                             </span>
                                         </div>
 

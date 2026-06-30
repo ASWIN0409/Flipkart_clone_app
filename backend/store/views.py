@@ -83,7 +83,7 @@ def create_order(request):
         total = sum(float(item.product.price) * item.quantity for item in cart.items.all())
 
         # Create order
-        order = Order.objects.create(user=None, total_amount=total)
+        order = Order.objects.create(user=None, name=name, phone=phone, address=address, payment_method=payment_method, total_amount=total)
 
         # Create order items
         for item in cart.items.all():
