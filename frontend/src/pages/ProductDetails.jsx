@@ -9,11 +9,6 @@ function ProductDetails() {
     const navigate = useNavigate();
     const {addToCart} = useCart();
     const BASE_URL = import.meta.env.VITE_BASE_URL;
-    
-    const handleAddToCart = async (product) => {
-        await addToCart(product);
-        navigate('/cart');
-    }
 
     const { data: product, isLoading, isError, error } = useQuery({
         queryKey: ['product', id],
@@ -92,11 +87,11 @@ function ProductDetails() {
 
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-center mt-4 gap-3">
-                    <button onClick={() => handleAddToCart(product)} className="bg-gray-200 text-black w-full px-4 py-3 rounded-lg hover:bg-gray-300">
+                    <button onClick={() => addToCart(product)} className="bg-gray-200 text-black w-full px-4 py-3 rounded-lg hover:bg-gray-300">
                         Add to Cart
                     </button>
 
-                    <button onClick={() => handleAddToCart(product)} className="bg-orange-400 text-white w-full px-4 py-3 rounded-lg hover:bg-orange-600">
+                    <button onClick={() => navigate('/cart')} className="bg-orange-400 text-white w-full px-4 py-3 rounded-lg hover:bg-orange-600">
                         Buy at ₹{product.price}
                     </button>
                 </div>

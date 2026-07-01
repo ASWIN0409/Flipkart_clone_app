@@ -5,6 +5,13 @@ function Navbar() {
 
     const navigate = useNavigate();
     const { cartItems } = useCart();
+    const accessToken = localStorage.getItem('access');
+
+    const handleLogout = () => {
+        localStorage.removeItem('access');
+        localStorage.removeItem('refresh');
+        navigate('/login');
+    }
 
     const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
@@ -52,22 +59,31 @@ function Navbar() {
                         🛒
                         {cartCount > 0 && (
                             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">
-                            {cartCount}
-                        </span>
+                                {cartCount}
+                            </span>
                         )}
-                        
+
                     </button>
 
                     <Link className="hover:text-indigo-600 transition">
                         Orders
                     </Link>
 
-                    <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
-                        Login
-                    </button>
-                    <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
-                        Register
-                    </button>
+                    {accessToken ?
+                        <button onClick={handleLogout} className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+                            Logout
+                        </button>
+                        :
+                        <div>
+                            <button onClick={() => navigate('/login')} className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+                                Login
+                            </button>
+                            <button onClick={() => navigate('/register')} className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+                                Sign Up
+                            </button>
+                        </div>
+
+                    }
 
                 </div>
             </div>
