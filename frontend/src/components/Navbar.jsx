@@ -74,7 +74,7 @@ function Navbar() {
                             Logout
                         </button>
                         :
-                        <div>
+                        <div className='flex gap-4'>
                             <button onClick={() => navigate('/login')} className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
                                 Login
                             </button>
