@@ -1,5 +1,4 @@
 import { Navigate, Outlet } from "react-router-dom";
-import MainLayout from "../../layout/MainLayout";
 
 function PrivateRoute() {
 

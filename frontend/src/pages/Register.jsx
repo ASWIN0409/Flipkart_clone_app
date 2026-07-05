@@ -91,7 +91,7 @@ function Register() {
             <input
               type="password"
               name="password2"
-              placeholder="Confirm Password"
+              placeholder="Enter Password Again"
               value={formData.password2}
               onChange={handleInputChange}
               className="w-full border-b-2 border-gray-300 p-3 outline-none focus:border-blue-500"

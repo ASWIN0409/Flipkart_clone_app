@@ -27,7 +27,7 @@ def get_product_details(request, pk):
 def get_cart(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     serializer = CartSerializer(cart)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 # add items to cart view
 @api_view(['POST'])
