@@ -23,7 +23,7 @@ class ProductSerializer(serializers.ModelSerializer):
     brand = BrandSerializer(read_only=True)
     class Meta:
         model = Product
-        exclude = ["image"]
+        fields = '__all__'
 
 class CartItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.name', read_only=True)

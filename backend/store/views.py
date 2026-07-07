@@ -8,24 +8,12 @@ from .serializers import ProductSerializer, CartSerializer, UserSerializer, Regi
 
 
 # get complete products data view
-# @api_view(['GET'])
-# def get_product_list(request):
-#     products = Product.objects.all()
-#     serializer = ProductSerializer(products, many=True)
-#     return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(["GET"])
+@api_view(['GET'])
 def get_product_list(request):
-    try:
-        products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
+    products = Product.objects.all()
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
-    except Exception as e:
-        return Response(
-            {"error": str(e)},
-            status=500
-        )
 
 # get product individual data view
 @api_view(['GET'])
