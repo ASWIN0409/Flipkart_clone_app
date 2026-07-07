@@ -53,7 +53,7 @@ class Order(models.Model):
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"order: {self.id}: {self.user.username}"
+        return f"Order {self.id}: {self.user.username if self.user else 'Guest'}"
     
 
 class OrderItem(models.Model):
@@ -71,7 +71,7 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Cart {self.id} for {self.user.username}"
+        return f"Cart {self.id} for {self.user.username if self.user else 'Guest'}"
     
     @property
     def total(self):
