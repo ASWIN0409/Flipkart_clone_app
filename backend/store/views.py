@@ -18,15 +18,14 @@ from .serializers import ProductSerializer, CartSerializer, UserSerializer, Regi
 def get_product_list(request):
     try:
         products = Product.objects.all()
-
-        return Response({
-            "count": products.count()
-        })
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
 
     except Exception as e:
-        return Response({
-            "error": str(e)
-        }, status=500)
+        return Response(
+            {"error": str(e)},
+            status=500
+        )
 
 # get product individual data view
 @api_view(['GET'])
